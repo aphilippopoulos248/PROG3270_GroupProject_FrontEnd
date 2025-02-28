@@ -1,0 +1,91 @@
+
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Fira Code", monospace;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+.navbar-container {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    background-color: #171717;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0.75rem 1.5rem;
+    z-index: 100;
+    overflow: hidden;
+
+}
+
+
+.navbar-logo {
+    display: flex;
+    align-items: center;
+}
+
+
+.navbar-logo img {
+    width: 40px;
+    height: auto;
+    margin-right: 0.5rem;
+}
+
+
+.navbar-title {
+    color: #c5c5c5;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: transform 0.2s ease-in-out;
+}
+
+
+.navbar-logo:hover .navbar-title {
+    transform: scale(1.1);
+    background: linear-gradient(to right, #6b21a8, #60a5fa, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    background-clip: text;
+    color: transparent;
+}
+
+
+.navbar-links {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+}
+
+
+.nav-link {
+    display: inline-block;
+    color: #c5c5c5;
+    text-decoration: none;
+
+
+    transition: transform 0.2s ease-in-out;
+}
+
+
+.nav-link:hover {
+    transform: scale(1.1);
+
+    background: linear-gradient(to right, #6b21a8, #60a5fa, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    background-clip: text;
+    color: transparent;
+}

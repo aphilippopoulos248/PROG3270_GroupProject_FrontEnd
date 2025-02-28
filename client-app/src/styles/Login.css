@@ -1,0 +1,86 @@
+/* Login.css */
+
+.login-page {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+
+}
+
+.bubble-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+form {
+    width: 400px;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #171717;
+    z-index: 2;
+}
+h3 {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+label, h3 {
+    color: #ffffff;
+    font-family: "Fira Code", monospace;
+}
+
+input {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    padding: 10px;
+}
+
+button {
+    width: 100%;
+    margin-top: 16px;
+    padding: 15px;
+    background: linear-gradient(to right, #6b21a8, #60a5fa, #ec4899);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.login-container {
+    position: relative;
+    z-index: 2;
+}
+.login-form {
+    position: relative;
+    z-index: 2;
+    width: 400px;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #171717;
+}
+input {
+    display: block;
+    width: 100%;
+    margin-top: 12px;
+    margin-bottom: 16px;
+    padding: 14px;
+    border-radius: 9999px;
+    background-color: #2c2c2c;
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+}
