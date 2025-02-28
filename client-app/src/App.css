@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  text-align: left;
 }
 
 .App-logo {
@@ -19,6 +19,11 @@
     display: flex;
     align-items: center; /* Vertically center the content */
     padding: 10px 20px;
+    text-align: center;
+}
+
+nav {
+  text-align: center;
 }
 
 .App-header .logo-container {

@@ -8,15 +8,15 @@ import About from "./About";
 
 function App() {
     // State to store weather data
-    const [weatherData, setWeatherData] = useState([]);
+    const [productData, setProductData] = useState([]);
 
     // Fetch weather forecast data from the API when the component mounts
     useEffect(() => {
         // Replace with your backend API URL (the route to the GetWeatherForecast endpoint)
-        fetch("https://localhost:7223/weatherforecast")
+        fetch("https://fakestoreapi.com/products")
             .then((response) => response.json()) // Parse the response as JSON
-            .then((data) => setWeatherData(data)) // Set the data to the state
-            .catch((error) => console.error("Error fetching weather data:", error)); // Handle errors
+            .then((data) => setProductData(data)) // Set the data to the state
+            .catch((error) => console.error("Error fetching product data:", error)); // Handle errors
     }, []); // Empty dependency array ensures this effect runs once when the component mounts
 
     return (
@@ -24,7 +24,7 @@ function App() {
             <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
                 <p>Our Group Project</p>
-                <p>Created by Alexander, Chanelle, and Kenan</p>
+                <p>Created by Alexander, Chanelle, Armand, and Kenan</p>
             </header>
             <main>
                 <Router>
@@ -45,14 +45,16 @@ function App() {
                     </Routes>
                 </Router>
                 <div>
-                    <h1>Weather Forecast</h1>
+                    <h1>Products</h1>
                     <ul>
                         {/* Iterate over the weather data and display each forecast */}
-                        {weatherData.map((forecast, index) => (
+                        {productData.map((product, index) => (
                             <li key={index}>
-                                <p>Date: {forecast.date}</p>
-                                <p>Temperature: {forecast.temperatureC}�C / {forecast.temperatureF}�F</p>
-                                <p>Summary: {forecast.summary}</p>
+                                <p>Title: {product.title}</p>
+                                <p>Price: {product.price}</p>
+                                <p>Description: {product.description}</p>
+                                <br></br>
+                                <br></br>
                             </li>
                         ))}
                     </ul>
