@@ -9,7 +9,7 @@ import Navbar from "../components/Navbar";
 
 function AppContent() {
     const location = useLocation();
-    const isLoginPage = location.pathname === "/login";
+    const isLoginPage = location.pathname === "/";
 
     return (
         <main>
@@ -18,9 +18,9 @@ function AppContent() {
 
             {/* Routes */}
             <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<Login />} />
+                <Route path="/home" element={<Home />} />
                 <Route path="/about" element={<About />} />
-                <Route path="/login" element={<Login />} />
                 <Route path="/products" element={<Products />} />
             </Routes>
         </main>
