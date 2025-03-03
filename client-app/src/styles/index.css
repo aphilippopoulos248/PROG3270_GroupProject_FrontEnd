@@ -1,13 +1,12 @@
-/* General Reset */
 html, body {
-    height: 100%; /* Ensures the body fills the entire viewport */
+    height: 100%;
     margin: 0;
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     background-color: #1F1F1FFF;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition: background 0.5s ease-in-out;
-    overflow-x: hidden; /* if you really need to hide any potential overflow */
+    overflow-x: hidden;
 
 }
 p {

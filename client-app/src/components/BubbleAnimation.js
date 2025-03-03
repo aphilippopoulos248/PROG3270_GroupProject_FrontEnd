@@ -13,6 +13,8 @@ function BubbleAnimation() {
         return () => clearInterval(intervalId);
     }, []);
 
+
+    //Create bubbles for animation
     const createBubble = (container) => {
         const bubble = document.createElement("span");
         bubble.className = "bubble";
@@ -23,15 +25,15 @@ function BubbleAnimation() {
         bubble.style.left = x + "px";
         bubble.style.top = y + "px";
 
-
+        //Generate random size for bubble
         const size = 20 + Math.random() * 60;
         bubble.style.width = size + "px";
         bubble.style.height = size + "px";
 
-
+        //Generate random animation duration
         container.appendChild(bubble);
 
-
+        //Remove bubble after animation
         setTimeout(() => {
             bubble.remove();
         }, 6000);

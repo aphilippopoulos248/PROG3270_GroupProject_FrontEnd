@@ -10,7 +10,7 @@
 
 
 
-/* The floatUp animation */
+/* The float animation */
 @keyframes floatUp {
     0% {
         transform: translateY(0);

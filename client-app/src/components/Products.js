@@ -11,6 +11,7 @@ function Products() {
     }, []);
 
     return (
+        // Display the products from API data
         <div style={{ margin: "20px" }}>
             <h1>Products</h1>
             <ul>
