@@ -8,7 +8,7 @@ function Navbar() {
         <nav className="navbar-container">
             <div className="navbar-logo">
                 {/*<img src={logo} alt="Site Logo" />*/}
-                <span className="navbar-title">Store</span>
+                <span className="navbar-title">VibeStitch</span>
             </div>
             <ul className="navbar-links">
                 {/* Links */}
