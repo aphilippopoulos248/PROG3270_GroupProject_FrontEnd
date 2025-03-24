@@ -32,7 +32,7 @@ function Products() {
     useEffect(() => {
         const fetchProducts = async () => {
                 // Fetch API Data from fakestoreapi.com
-                const fakeRes = await fetch("https://fakestoreapi.com/products");
+                const fakeRes = await fetch("https://localhost:7223/api/products");
                 const fakeData = await fakeRes.json();
 
                 // Filter fakestoreapi products by category

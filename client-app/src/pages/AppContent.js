@@ -5,7 +5,7 @@ import About from "../components/About";
 import Login from "../components/Login";
 import Products from "../components/Products";
 import Navbar from "../components/Navbar";
-import ProductDetail from "../components/ProductDetail";
+//import ProductDetail from "../components/ProductDetail";
 
 function AppContent() {
     const location = useLocation();
@@ -22,7 +22,7 @@ function AppContent() {
                 <Route path="/home" element={<Home />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/products" element={<Products />} />
-                <Route path="/product/:id" element={<ProductDetail />} />
+                {/*<Route path="/product/:id" element={<ProductDetail />} />*/}
             </Routes>
         </main>
     );
