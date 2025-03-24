@@ -6,38 +6,40 @@ const ProductDetail = () => {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
 
-    // dummy reviews
+    // Dummy reviews
     const [reviews, setReviews] = useState([
         "⭐️⭐️⭐️⭐️⭐️ - Sample review text",
         "⭐️⭐️⭐️⭐️⭐ - Sample review text",
         "⭐️⭐️⭐️⭐⭐ - Sample review text."
     ]);
 
-    // track new review text
+    // Track new review text
     const [newReview, setNewReview] = useState("");
 
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                // format for dummy product
+                // Detect
                 const isDummy = id.startsWith("dummy-");
                 const realId = isDummy ? id.replace("dummy-", "") : id;
 
+                // Build the endpoint
                 const url = isDummy
                     ? `https://dummyjson.com/products/${realId}`
-                    : `https://fakestoreapi.com/products/${realId}`;
+                    : `https://localhost:7223/api/products/${realId}`;
 
                 const res = await fetch(url);
                 const data = await res.json();
 
-                // normalize data
+                // Normalize
                 const formatted = {
-                    id: id,
+                    id,
                     title: data.title,
                     description: data.description,
                     price: data.price,
+
                     image: isDummy ? data.thumbnail : data.image,
-                    category: data.category,
+                    category: data.category
                 };
 
                 setProduct(formatted);
@@ -61,7 +63,7 @@ const ProductDetail = () => {
 
     return (
         <div className="product-detail">
-            {/* Left Column */}
+            {/* Left Column: image + reviews */}
             <div className="left-column">
                 <img src={product.image} alt={product.title} />
 
@@ -73,7 +75,7 @@ const ProductDetail = () => {
                         ))}
                     </ul>
 
-                    {/* textbox to write reviews */}
+                    {/* Textbox for new reviews */}
                     <div className="add-review">
             <textarea
                 placeholder="Write a review..."
@@ -85,7 +87,7 @@ const ProductDetail = () => {
                 </div>
             </div>
 
-            {/* Right Column */}
+            {/* Right Column: product info */}
             <div className="right-column">
                 <h2>{product.title}</h2>
                 <p className="price">${product.price}</p>
