@@ -12,8 +12,11 @@ function Navbar() {
             </div>
             <ul className="navbar-links">
                 {/* Links */}
+                {/*<li>*/}
+                {/*    <Link to="/home" className="nav-link">Home</Link>*/}
+                {/*</li>*/}
                 <li>
-                    <Link to="/home" className="nav-link">Home</Link>
+                    <Link to="/products" className="nav-link">Products</Link>
                 </li>
                 <li>
                     <Link to="/about" className="nav-link">About</Link>
@@ -21,9 +24,7 @@ function Navbar() {
                 <li>
                     <Link to="/login" className="nav-link">Login</Link>
                 </li>
-                <li>
-                    <Link to="/products" className="nav-link">Products</Link>
-                </li>
+
             </ul>
         </nav>
     );

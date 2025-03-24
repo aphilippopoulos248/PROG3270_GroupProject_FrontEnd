@@ -1,0 +1,19 @@
+.about-container {
+    margin: 2rem;
+    padding: 1rem;
+    text-align: center;
+}
+
+.about-container h1 {
+    margin-bottom: 1rem;
+}
+
+.about-container p {
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.about-caption {
+    font-style: italic;
+    color: #555;
+}
