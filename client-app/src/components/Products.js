@@ -132,7 +132,7 @@ function Products() {
             <div className="products-grid">
                 {filteredProducts.length > 0 ? (
                     filteredProducts.map((product) => (
-                        <Link to={`/product/${product.id}`} className="product-card">
+                        <Link to={`/product/${product.productID}`} className="product-card">
                             <img src={product.image} alt={product.title} className="product-image" />
                             <div className="product-info">
                                 <h2 className="product-title">{product.title}</h2>
