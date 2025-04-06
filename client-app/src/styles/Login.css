@@ -10,7 +10,6 @@
     margin: 0;
     padding: 0;
     overflow: hidden;
-
 }
 
 .bubble-container {
@@ -30,6 +29,7 @@ form {
     background-color: #171717;
     z-index: 2;
 }
+
 h3 {
     text-align: center;
     margin-bottom: 24px;
@@ -48,21 +48,41 @@ input {
     padding: 10px;
 }
 
-button {
+/* More specific login button styles that won't be overridden by global styles */
+.login-button {
     width: 100%;
     margin-top: 16px;
     padding: 15px;
     background: linear-gradient(to right, #6b21a8, #60a5fa, #ec4899);
-    color: #fff;
+    color: #fff !important;
     font-weight: 600;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 6px;
+    font-size: 1rem;
+    border: none;
+    height: auto;
+    line-height: normal;
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-family: "Fira Code", monospace;
+}
+
+.login-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.login-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 .login-container {
     position: relative;
     z-index: 2;
 }
+
 .login-form {
     position: relative;
     z-index: 2;
@@ -72,6 +92,7 @@ button {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #171717;
 }
+
 input {
     display: block;
     width: 100%;
@@ -83,4 +104,13 @@ input {
     color: #fff;
     font-size: 16px;
     outline: none;
+}
+
+.error-message {
+    color: #ff4d4d;
+    background-color: rgba(255, 77, 77, 0.1);
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    text-align: center;
 }

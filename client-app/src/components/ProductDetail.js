@@ -2,15 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/ProductDetail.css";
 
-const ProductDetail = () => {
+const ProductDetail = ({ addToCart, loading }) => {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
+    const [addedToCart, setAddedToCart] = useState(false);
 
     // Dummy reviews
     const [reviews, setReviews] = useState([
-        "⭐️⭐️⭐️⭐️⭐️ - Sample review text",
-        "⭐️⭐️⭐️⭐️⭐ - Sample review text",
-        "⭐️⭐️⭐️⭐⭐ - Sample review text."
+        "⭐️⭐️⭐️⭐️⭐️ - Great quality and comfortable fit!",
+        "⭐️⭐️⭐️⭐️⭐ - Love the design, but runs a bit small.",
+        "⭐️⭐️⭐️⭐⭐ - Good value for the price."
     ]);
 
     // Track new review text
@@ -33,11 +34,10 @@ const ProductDetail = () => {
 
                 // Normalize
                 const formatted = {
-                    id,
+                    id: id,
                     title: data.title,
                     description: data.description,
                     price: data.price,
-
                     image: isDummy ? data.thumbnail : data.image,
                     category: data.category
                 };
@@ -49,13 +49,26 @@ const ProductDetail = () => {
         };
 
         fetchProduct();
+        setAddedToCart(false);
     }, [id]);
 
     // Add new review to the list
     const handleAddReview = () => {
         if (newReview.trim()) {
-            setReviews([...reviews, newReview.trim()]);
+            setReviews([...reviews, "⭐️⭐️⭐️⭐️⭐️ - " + newReview.trim()]);
             setNewReview("");
+        }
+    };
+
+    const handleAddToCart = () => {
+        if (product) {
+            addToCart(product);
+            setAddedToCart(true);
+
+            // Reset the "Added" message after 3 seconds
+            setTimeout(() => {
+                setAddedToCart(false);
+            }, 3000);
         }
     };
 
@@ -77,11 +90,11 @@ const ProductDetail = () => {
 
                     {/* Textbox for new reviews */}
                     <div className="add-review">
-            <textarea
-                placeholder="Write a review..."
-                value={newReview}
-                onChange={(e) => setNewReview(e.target.value)}
-            />
+                        <textarea
+                            placeholder="Write a review..."
+                            value={newReview}
+                            onChange={(e) => setNewReview(e.target.value)}
+                        />
                         <button onClick={handleAddReview}>Submit Review</button>
                     </div>
                 </div>
@@ -90,9 +103,15 @@ const ProductDetail = () => {
             {/* Right Column: product info */}
             <div className="right-column">
                 <h2>{product.title}</h2>
-                <p className="price">${product.price}</p>
+                <p className="price">${product.price.toFixed(2)}</p>
                 <p>{product.description}</p>
-                <button className="add-to-cart-btn">Add to Cart</button>
+                <button
+                    className="add-to-cart-btn"
+                    onClick={handleAddToCart}
+                    disabled={loading || addedToCart}
+                >
+                    {loading ? "Adding..." : addedToCart ? "Added to Cart!" : "Add to Cart"}
+                </button>
             </div>
         </div>
     );
