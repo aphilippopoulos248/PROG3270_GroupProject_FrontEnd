@@ -49,16 +49,21 @@ export const CartService = {
                     // Create a map of product IDs to their full details
                     const productMap = new Map();
                     cartItems.forEach(item => {
+                        // Store both formats of the ID for lookup
+                        const normalizedId = item.id.toString().replace('dummy-', '');
                         productMap.set(item.id.toString(), item);
+                        productMap.set(normalizedId, item);
                     });
 
                     // Add product details to cart items
                     const cartWithDetails = carts[0];
                     cartWithDetails.products = cartWithDetails.products.map(p => {
                         const productId = p.productId.toString();
-                        if (productMap.has(productId)) {
-                            // Use cached product details
-                            const details = productMap.get(productId);
+                        const dummyProductId = `dummy-${productId}`;
+// Check both possible ID formats
+                        if (productMap.has(productId) || productMap.has(dummyProductId)) {
+                            // Use cached product details from whichever format matches
+                            const details = productMap.get(productId) || productMap.get(dummyProductId);
                             return {
                                 ...p,
                                 title: details.title,
