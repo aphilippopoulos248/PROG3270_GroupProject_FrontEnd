@@ -5,9 +5,9 @@
     position: absolute;
     top: 100%; /* Sets it directly below the navbar */
     right: 1.5rem; /* aligns with navbar padding */
-    background: #fff;
+    background: #181818;
     width: 300px;
-    border: 1px solid #ddd;
+    border: 1px solid #c5c5c5;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 16px;
     z-index: 200; /* Makes sure it appears above other content */
@@ -19,7 +19,7 @@
   .cart h2 {
     margin-top: 0;
     font-size: 1.2rem;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #c5c5c5;
     padding-bottom: 8px;
   }
   
@@ -33,6 +33,8 @@
     display: flex;
     align-items: center;
     margin-bottom: 16px;
+    margin: 0;
+    padding: 0;
   }
   
   .cart li img.cart-image {
@@ -40,7 +42,7 @@
     height: 50px;
     object-fit: cover;
     margin-right: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid #cccccc;
     border-radius: 4px;
   }
   
@@ -49,8 +51,8 @@
   }
   
   .cart li button {
-    background: #ff4d4d;
-    color: #fff;
+    background: #181818;
+    color: #c5c5c5;
     border: none;
     padding: 4px 8px;
     border-radius: 4px;
@@ -59,6 +61,17 @@
   }
   
   .cart li button:hover {
-    background: #ff1a1a;
+    background: #2b2b2b;
   }
+
+.cart-toggle-button {
+  background: transparent;       
+  border: none;                  
+  color: #c5c5c5;              
+  font-size: 1rem;               
+  padding: 0rem 1rem;          
+  cursor: pointer;               
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
   
