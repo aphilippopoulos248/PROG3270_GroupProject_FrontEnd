@@ -21,7 +21,12 @@ const Cart = ({ cartItems, removeFromCart, cartId, userId, isRegisteredUser, upd
         setLoading(true);
         const success = await CartService.removeItemFromCart(cartId, item.id);
         if (success) {
+            // This updates the parent's state, but we need to also update our local view
             removeFromCart(item.id);
+
+            // Immediately update the cart items displayed in this component
+            const updatedItems = cartItems.filter(cartItem => cartItem.id !== item.id);
+            updateCartItems(updatedItems);
         }
         setLoading(false);
     };
