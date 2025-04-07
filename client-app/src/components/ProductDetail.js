@@ -6,6 +6,8 @@ const ProductDetail = ({ addToCart, loading }) => {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
     const [addedToCart, setAddedToCart] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     // Dummy reviews
     const [reviews, setReviews] = useState([
@@ -19,6 +21,9 @@ const ProductDetail = ({ addToCart, loading }) => {
 
     useEffect(() => {
         const fetchProduct = async () => {
+            setIsLoading(true);
+            setError(null);
+
             try {
                 // Detect
                 const isDummy = id.startsWith("dummy-");
@@ -29,22 +34,32 @@ const ProductDetail = ({ addToCart, loading }) => {
                     ? `https://dummyjson.com/products/${realId}`
                     : `https://localhost:7223/api/products/${realId}`;
 
+                console.log("Fetching product from:", url);
                 const res = await fetch(url);
-                const data = await res.json();
 
-                // Normalize
+                if (!res.ok) {
+                    throw new Error(`Failed to fetch product: ${res.status}`);
+                }
+
+                const data = await res.json();
+                console.log("Product data received:", data);
+
+                // Normalize the data with price handling
                 const formatted = {
                     id: id,
-                    title: data.title,
-                    description: data.description,
-                    price: data.price,
-                    image: isDummy ? data.thumbnail : data.image,
-                    category: data.category
+                    title: data.title || "Unknown Product",
+                    description: data.description || "No description available",
+                    price: typeof data.price === 'number' ? data.price : 0,
+                    image: isDummy ? data.thumbnail : (data.image || "https://via.placeholder.com/150"),
+                    category: data.category || "Uncategorized"
                 };
 
                 setProduct(formatted);
             } catch (error) {
                 console.error("Error fetching product detail:", error);
+                setError(error.message);
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -72,13 +87,26 @@ const ProductDetail = ({ addToCart, loading }) => {
         }
     };
 
-    if (!product) return <p>Loading product...</p>;
+    if (isLoading) return <p className="loading-message">Loading product...</p>;
+    if (error) return <p className="error-message">Error: {error}</p>;
+    if (!product) return <p className="not-found-message">Product not found</p>;
+
+    // Format price safely
+    const displayPrice = typeof product.price === 'number' ?
+        `$${product.price.toFixed(2)}` : '$0.00';
 
     return (
         <div className="product-detail">
             {/* Left Column: image + reviews */}
             <div className="left-column">
-                <img src={product.image} alt={product.title} />
+                <img
+                    src={product.image}
+                    alt={product.title}
+                    onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://via.placeholder.com/150'
+                    }}
+                />
 
                 <div className="reviews-section">
                     <h3>Customer Reviews</h3>
@@ -103,7 +131,7 @@ const ProductDetail = ({ addToCart, loading }) => {
             {/* Right Column: product info */}
             <div className="right-column">
                 <h2>{product.title}</h2>
-                <p className="price">${product.price.toFixed(2)}</p>
+                <p className="price">{displayPrice}</p>
                 <p>{product.description}</p>
                 <button
                     className="add-to-cart-btn"

@@ -154,7 +154,9 @@ function Products({ addToCart }) {
                 />
                 <div className="product-info">
                   <h2 className="product-title">{product.title}</h2>
-                  <p className="product-price">${product.price}</p>
+                    <p className="product-price">
+                        ${typeof product.price === 'number' ? product.price.toFixed(2) : '0.00'}
+                    </p>
                 </div>
               </Link>
               {/* The "Add to Cart" button */}

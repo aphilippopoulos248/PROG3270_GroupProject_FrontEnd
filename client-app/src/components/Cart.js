@@ -10,6 +10,11 @@ const Cart = ({ cartItems, removeFromCart, cartId, userId, isRegisteredUser, upd
     const [orderComplete, setOrderComplete] = useState(false);
     const [orderDetails, setOrderDetails] = useState(null);
 
+
+    const formatPrice = (price) => {
+        return typeof price === 'number' ? price.toFixed(2) : '0.00';
+    };
+
     const handleRemoveItem = async (item) => {
         if (!cartId) return;
 
@@ -58,11 +63,11 @@ const Cart = ({ cartItems, removeFromCart, cartId, userId, isRegisteredUser, upd
                 <h2>Order Confirmed!</h2>
                 <div className="order-details">
                     <p><strong>Order Date:</strong> {new Date(orderDetails.orderDate).toLocaleString()}</p>
-                    <p><strong>Subtotal:</strong> ${orderDetails.subtotal.toFixed(2)}</p>
+                    <p><strong>Subtotal:</strong> ${formatPrice(orderDetails.subtotal)}</p>
                     {orderDetails.discount > 0 && (
-                        <p><strong>Discount:</strong> ${orderDetails.discount.toFixed(2)}</p>
+                        <p><strong>Discount:</strong> ${formatPrice(orderDetails.discount)}</p>
                     )}
-                    <p><strong>Total:</strong> ${orderDetails.total.toFixed(2)}</p>
+                    <p><strong>Total:</strong> ${formatPrice(orderDetails.total)}</p>
                     <p><strong>Shipping Address:</strong> {shippingAddress}</p>
                 </div>
                 <button onClick={() => setOrderComplete(false)}>Continue Shopping</button>
@@ -77,7 +82,7 @@ const Cart = ({ cartItems, removeFromCart, cartId, userId, isRegisteredUser, upd
                 <h2>Checkout</h2>
                 {total !== null && (
                     <div className="total-section">
-                        <p><strong>Total:</strong> ${total.toFixed(2)}</p>
+                        <p><strong>Total:</strong> ${formatPrice(total)}</p>
                         {isRegisteredUser && <p className="discount-note">Members get 10% discount!</p>}
                     </div>
                 )}
@@ -121,10 +126,18 @@ const Cart = ({ cartItems, removeFromCart, cartId, userId, isRegisteredUser, upd
                     <ul className="cart-items">
                         {cartItems.map((item) => (
                             <li key={item.id} className="cart-item">
-                                <img src={item.image} alt={item.title} className="cart-image" />
+                                <img
+                                    src={item.image}
+                                    alt={item.title}
+                                    className="cart-image"
+                                    onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = 'https://via.placeholder.com/150'
+                                    }}
+                                />
                                 <div className="cart-details">
-                                    <h4>{item.title}</h4>
-                                    <p>${item.price.toFixed(2)}</p>
+                                    <h4>{item.title || `Product ${item.id}`}</h4>
+                                    <p>${formatPrice(item.price)}</p>
                                 </div>
                                 <button
                                     onClick={() => handleRemoveItem(item)}
@@ -144,7 +157,7 @@ const Cart = ({ cartItems, removeFromCart, cartId, userId, isRegisteredUser, upd
                         >
                             {loading ? "Calculating..." : "Calculate Total"}
                         </button>
-                        {total !== null && <p className="cart-total">Total: ${total.toFixed(2)}</p>}
+                        {total !== null && <p className="cart-total">Total: ${formatPrice(total)}</p>}
                         <button
                             onClick={startCheckout}
                             className="checkout-button"

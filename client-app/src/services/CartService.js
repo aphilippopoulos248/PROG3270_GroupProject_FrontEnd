@@ -1,6 +1,26 @@
 // src/services/CartService.js
 const API_URL = "https://localhost:7223";
 
+// Helper function to store cart items in localStorage
+const saveCartItemsToLocalStorage = (items) => {
+    try {
+        localStorage.setItem('cartItems', JSON.stringify(items));
+    } catch (error) {
+        console.error("Error saving cart items to localStorage:", error);
+    }
+};
+
+// Helper function to retrieve cart items from localStorage
+const getCartItemsFromLocalStorage = () => {
+    try {
+        const items = localStorage.getItem('cartItems');
+        return items ? JSON.parse(items) : [];
+    } catch (error) {
+        console.error("Error retrieving cart items from localStorage:", error);
+        return [];
+    }
+};
+
 export const CartService = {
     getUserCart: async (userId) => {
         try {
@@ -20,7 +40,40 @@ export const CartService = {
             console.log("Carts received:", carts);
 
             // Return the most recent cart
-            return carts.length > 0 ? carts[0] : null;
+            if (carts.length > 0) {
+                // Try to get cached product details
+                const cartItems = getCartItemsFromLocalStorage();
+
+                // If we have a cart and cached items, merge them together
+                if (cartItems.length > 0) {
+                    // Create a map of product IDs to their full details
+                    const productMap = new Map();
+                    cartItems.forEach(item => {
+                        productMap.set(item.id.toString(), item);
+                    });
+
+                    // Add product details to cart items
+                    const cartWithDetails = carts[0];
+                    cartWithDetails.products = cartWithDetails.products.map(p => {
+                        const productId = p.productId.toString();
+                        if (productMap.has(productId)) {
+                            // Use cached product details
+                            const details = productMap.get(productId);
+                            return {
+                                ...p,
+                                title: details.title,
+                                price: details.price,
+                                image: details.image
+                            };
+                        }
+                        return p;
+                    });
+
+                    return cartWithDetails;
+                }
+                return carts[0];
+            }
+            return null;
         } catch (error) {
             console.error("Error fetching cart:", error);
             return null;
@@ -30,6 +83,9 @@ export const CartService = {
     createCart: async (userId, products) => {
         try {
             console.log("Creating cart for user:", userId, "with products:", products);
+
+            // Save full product details to localStorage
+            saveCartItemsToLocalStorage(products);
 
             const cartData = {
                 userId: userId,
@@ -67,9 +123,15 @@ export const CartService = {
         }
     },
 
-    updateCart: async (cartId, cart) => {
+    updateCart: async (cartId, cart, newProduct) => {
         try {
             console.log("Updating cart:", cartId, "with data:", cart);
+
+            // Update localStorage with new product
+            if (newProduct) {
+                const existingItems = getCartItemsFromLocalStorage();
+                saveCartItemsToLocalStorage([...existingItems, newProduct]);
+            }
 
             const response = await fetch(`${API_URL}/carts/${cartId}`, {
                 method: 'PUT',
@@ -97,6 +159,11 @@ export const CartService = {
     removeItemFromCart: async (cartId, productId) => {
         try {
             console.log("Removing product:", productId, "from cart:", cartId);
+
+            // Remove from localStorage
+            const existingItems = getCartItemsFromLocalStorage();
+            const updatedItems = existingItems.filter(item => item.id !== productId);
+            saveCartItemsToLocalStorage(updatedItems);
 
             // Convert dummy-prefixed IDs
             if (typeof productId === 'string' && productId.startsWith('dummy-')) {
@@ -175,11 +242,20 @@ export const CartService = {
 
             const orderData = await response.json();
             console.log("Checkout completed, order data:", orderData);
+
+            // Clear cart items in localStorage after successful checkout
+            saveCartItemsToLocalStorage([]);
+
             return orderData;
         } catch (error) {
             console.error("Error checking out cart:", error);
             throw error;
         }
+    },
+
+    clearCart: () => {
+        // Clear cart items from localStorage
+        saveCartItemsToLocalStorage([]);
     }
 };
 

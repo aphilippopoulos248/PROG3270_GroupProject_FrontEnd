@@ -44,18 +44,58 @@ function AppContent() {
                 if (cart) {
                     setCartId(cart.id);
 
-                    // Need to fetch product details for each product in cart
-                    // For simplicity, we're assuming we already have the product details
-                    // In a real application, you would need to fetch them from the API
-                    const cartProducts = cart.products.map(p => ({
-                        id: p.productId,
-                        title: `Product ${p.productId}`,
-                        price: 0, // This would come from your product API
-                        image: 'https://via.placeholder.com/150',
-                        quantity: p.quantity
-                    }));
+                    // Process products from the cart
+                    const processedProducts = await Promise.all(
+                        cart.products.map(async (p) => {
+                            // If we already have product details from localStorage
+                            if (p.title && p.price !== undefined) {
+                                return {
+                                    id: p.productId,
+                                    title: p.title,
+                                    price: p.price,
+                                    image: p.image || 'https://via.placeholder.com/150',
+                                    quantity: p.quantity || 1
+                                };
+                            }
 
-                    setCartItems(cartProducts);
+                            // Otherwise try to fetch product details
+                            try {
+                                const isDummy = typeof p.productId === 'string' &&
+                                    p.productId.startsWith('dummy-');
+                                const realId = isDummy ?
+                                    p.productId.replace('dummy-', '') : p.productId;
+
+                                const url = isDummy ?
+                                    `https://dummyjson.com/products/${realId}` :
+                                    `https://localhost:7223/api/products/${p.productId}`;
+
+                                const res = await fetch(url);
+                                if (!res.ok) throw new Error('Product fetch failed');
+
+                                const data = await res.json();
+
+                                return {
+                                    id: p.productId,
+                                    title: data.title || `Product ${p.productId}`,
+                                    price: data.price || 0,
+                                    image: isDummy ? data.thumbnail :
+                                        (data.image || 'https://via.placeholder.com/150'),
+                                    quantity: p.quantity || 1
+                                };
+                            } catch (error) {
+                                console.error(`Error fetching product ${p.productId}:`, error);
+                                return {
+                                    id: p.productId,
+                                    title: `Product ${p.productId}`,
+                                    price: 0,
+                                    image: 'https://via.placeholder.com/150',
+                                    quantity: p.quantity || 1
+                                };
+                            }
+                        })
+                    );
+
+                    setCartItems(processedProducts);
                 }
             } catch (error) {
                 console.error("Error fetching user cart:", error);
@@ -70,18 +110,28 @@ function AppContent() {
     const addToCart = async (product) => {
         setLoading(true);
         try {
+            // Make a deep copy of the product to ensure we have all data
+            const completeProduct = {
+                id: product.id,
+                title: product.title || `Product ${product.id}`,
+                price: typeof product.price === 'number' ? product.price : 0,
+                image: product.image || 'https://via.placeholder.com/150',
+                category: product.category || 'uncategorized',
+                quantity: 1
+            };
+
             // If we don't have a cart yet, create one
             if (!cartId) {
-                const newCart = await CartService.createCart(userId || 0, [product]);
+                const newCart = await CartService.createCart(userId || 0, [completeProduct]);
                 setCartId(newCart.id);
-                setCartItems([product]);
+                setCartItems([completeProduct]);
             } else {
                 // If we have a cart, update it
                 const updatedCart = {
                     id: cartId,
                     userId: userId || 0,
                     date: new Date().toISOString(),
-                    products: [...cartItems, product].map(p => ({
+                    products: [...cartItems, completeProduct].map(p => ({
                         cartId: cartId,
                         productId: typeof p.id === 'string' && p.id.startsWith('dummy-')
                             ? parseInt(p.id.replace('dummy-', ''))
@@ -90,9 +140,9 @@ function AppContent() {
                     }))
                 };
 
-                const success = await CartService.updateCart(cartId, updatedCart);
+                const success = await CartService.updateCart(cartId, updatedCart, completeProduct);
                 if (success) {
-                    setCartItems(prev => [...prev, product]);
+                    setCartItems(prev => [...prev, completeProduct]);
                 }
             }
         } catch (error) {
@@ -126,6 +176,8 @@ function AppContent() {
         setCartItems([]);
         setCartId(null);
         localStorage.removeItem("memberID");
+        // Clear cart items from localStorage on logout
+        CartService.clearCart();
         navigate("/");
     };
 
