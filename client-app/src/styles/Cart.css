@@ -1,77 +1,316 @@
-/* src/styles/Cart.css */
-
-/* Dropdown container styling */
-.cart-dropdown {
-    position: absolute;
-    top: 100%; /* Sets it directly below the navbar */
-    right: 1.5rem; /* aligns with navbar padding */
-    background: #181818;
-    width: 300px;
-    border: 1px solid #c5c5c5;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* Cart component styling */
+.cart {
     padding: 16px;
-    z-index: 200; /* Makes sure it appears above other content */
-    max-height: 400px;
-    overflow-y: auto;
-  }
-  
-  /* Cart component styling */
-  .cart h2 {
+    color: #333;
+    border-radius: 8px;
+}
+
+.cart h2 {
     margin-top: 0;
     font-size: 1.2rem;
-    border-bottom: 1px solid #c5c5c5;
+    border-bottom: 1px solid #eee;
     padding-bottom: 8px;
-  }
-  
-  .cart ul {
+    color: #333;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+.cart ul {
     list-style: none;
     padding: 0;
     margin: 0;
-  }
-  
-  .cart li {
+}
+
+.cart-items {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.cart-item {
     display: flex;
     align-items: center;
     margin-bottom: 16px;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .cart li img.cart-image {
-    width: 50px;
-    height: 50px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-image {
+    width: 60px;
+    height: 60px;
     object-fit: cover;
-    margin-right: 8px;
-    border: 1px solid #cccccc;
+    margin-right: 12px;
+    border: 1px solid #ccc;
     border-radius: 4px;
-  }
-  
-  .cart li .cart-details {
+}
+
+.cart-details {
     flex-grow: 1;
-  }
-  
-  .cart li button {
-    background: #181818;
-    color: #c5c5c5;
+}
+
+.cart-details h4 {
+    margin: 0 0 5px;
+    font-size: 0.9rem;
+    color: #333;
+    text-align: left;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+.cart-details p {
+    margin: 0;
+    font-weight: bold;
+    color: #333;
+}
+
+.remove-button {
+    background: #ff4d4d;
+    color: #fff;
     border: none;
-    padding: 4px 8px;
+    padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.3s;
-  }
-  
-  .cart li button:hover {
-    background: #2b2b2b;
-  }
-
-.cart-toggle-button {
-  background: transparent;       
-  border: none;                  
-  color: #c5c5c5;              
-  font-size: 1rem;               
-  padding: 0rem 1rem;          
-  cursor: pointer;               
-  transition: color 0.2s ease, background 0.2s ease;
+    font-size: 0.8rem;
 }
 
-  
+.remove-button:hover {
+    background: #ff1a1a;
+}
+
+.cart-footer {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cart-total {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin: 10px 0;
+    text-align: right;
+    color: #333;
+}
+
+.calculate-total-button,
+.checkout-button {
+    width: 100%;
+    padding: 8px;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+}
+
+.calculate-total-button {
+    background: #4a90e2;
+    color: white;
+}
+
+.checkout-button {
+    background: #5cb85c;
+    color: white;
+}
+
+.calculate-total-button:hover,
+.checkout-button:hover {
+    opacity: 0.9;
+}
+
+/* IMPROVED CHECKOUT FORM STYLES */
+.checkout-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #333;
+    height: auto;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Date time display */
+.date-time-display {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    text-align: center;
+    border-left: 4px solid #4a90e2;
+}
+
+.date-time-display p {
+    margin: 0;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+/* Add scrollable container for checkout form */
+.checkout-scroll-container {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.form-section {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.form-section h3 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Fix for input visibility */
+.visible-text-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    color: #333 !important;
+    background-color: white !important;
+    opacity: 1 !important;
+    -webkit-text-fill-color: #333 !important;
+    box-shadow: none !important;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.form-group.half {
+    flex: 1;
+}
+
+.total-section {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.total-section p {
+    margin: 5px 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.discount-note {
+    color: #5cb85c;
+    font-style: italic;
+    font-size: 0.9rem;
+    margin: 5px 0;
+}
+
+.checkout-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.checkout-buttons button {
+    flex: 1;
+    padding: 12px 15px;
+    font-size: 0.95rem;
+}
+
+.back-button {
+    background: #6c757d;
+    color: white;
+}
+
+/* Credit card specific styling */
+#card-number {
+    letter-spacing: 1px;
+}
+
+#card-cvv {
+    text-align: center;
+}
+
+/* Order confirmation styling */
+.order-details {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.order-details p {
+    margin: 10px 0;
+    color: #333;
+    font-size: 1rem;
+}
+
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.error-message {
+    color: #ff4d4d;
+    margin: 10px 0;
+}
+
+/* Override the global button styles for cart buttons */
+.cart button {
+    background: #4a90e2;
+    color: white;
+    padding: 8px 15px;
+    font-size: 0.9rem;
+}
+
+.cart .remove-button {
+    background: #ff4d4d;
+}
+
+.cart .checkout-button {
+    background: #5cb85c;
+}
+
+/* For the cart dropdown in the navbar */
+.cart-dropdown .cart {
+    width: 350px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+/* Additional fixes for mobile */
+@media (max-width: 768px) {
+    .checkout-scroll-container {
+        max-height: 300px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .checkout-buttons {
+        flex-direction: column;
+    }
+}

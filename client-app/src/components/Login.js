@@ -12,7 +12,7 @@ function Login() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        
+
         const loginData = {
             Username: username,
             Password: password
@@ -36,9 +36,13 @@ function Login() {
 
             const member = await response.json();
             console.log("Member authenticated:", member);
+
+            // Store user ID in localStorage for persistence
+            localStorage.setItem("memberID", member.memberID);
+
             alert("Login successful!");
             navigate("/home", { state: { memberID: member.memberID } });
-            
+
             setUsername("");
             setPassword("");
         } catch (error) {
@@ -50,7 +54,7 @@ function Login() {
 
     return (
         <div className="login-page">
-            {/* Bubbles anim */}
+            {/* Bubbles animation */}
             <div className="bubble-container">
                 <BubbleAnimation />
             </div>
@@ -58,6 +62,7 @@ function Login() {
             {/* Login form */}
             <form onSubmit={handleSubmit}>
                 <h3>Log In</h3>
+                {error && <p className="error-message">{error}</p>}
                 <div>
                     <label htmlFor="username">Username:</label>
                     <input
@@ -78,7 +83,11 @@ function Login() {
                         required
                     />
                 </div>
-                <button type="submit" disabled={loading}>
+                <button
+                    type="submit"
+                    className="login-button"
+                    disabled={loading}
+                >
                     {loading ? "Logging In..." : "Log In"}
                 </button>
             </form>
@@ -87,4 +96,3 @@ function Login() {
 }
 
 export default Login;
-
