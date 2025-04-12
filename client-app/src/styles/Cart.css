@@ -1,5 +1,3 @@
-/* src/styles/Cart.css */
-
 /* Cart component styling */
 .cart {
     padding: 16px;
@@ -119,35 +117,105 @@
     opacity: 0.9;
 }
 
-.checkout-form .form-group {
+/* IMPROVED CHECKOUT FORM STYLES */
+.checkout-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #333;
+    height: auto;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Date time display */
+.date-time-display {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    text-align: center;
+    border-left: 4px solid #4a90e2;
+}
+
+.date-time-display p {
+    margin: 0;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+/* Add scrollable container for checkout form */
+.checkout-scroll-container {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 4px;
     margin-bottom: 15px;
 }
 
-.checkout-form label {
+.form-section {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.form-section h3 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
     color: #333;
 }
 
-.checkout-form textarea {
+/* Fix for input visibility */
+.visible-text-input {
     width: 100%;
-    min-height: 80px;
-    padding: 8px;
+    padding: 12px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    resize: vertical;
     font-family: inherit;
+    font-size: 14px;
+    color: #333 !important;
+    background-color: white !important;
+    opacity: 1 !important;
+    -webkit-text-fill-color: #333 !important;
+    box-shadow: none !important;
 }
 
-.checkout-buttons {
+.form-row {
     display: flex;
-    gap: 10px;
+    gap: 15px;
+    margin-bottom: 15px;
 }
 
-.back-button {
-    background: #6c757d;
-    color: white;
+.form-group.half {
+    flex: 1;
+}
+
+.total-section {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.total-section p {
+    margin: 5px 0;
+    font-size: 1.2rem;
+    color: #333;
 }
 
 .discount-note {
@@ -157,17 +225,45 @@
     margin: 5px 0;
 }
 
+.checkout-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.checkout-buttons button {
+    flex: 1;
+    padding: 12px 15px;
+    font-size: 0.95rem;
+}
+
+.back-button {
+    background: #6c757d;
+    color: white;
+}
+
+/* Credit card specific styling */
+#card-number {
+    letter-spacing: 1px;
+}
+
+#card-cvv {
+    text-align: center;
+}
+
+/* Order confirmation styling */
 .order-details {
     background: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 4px;
-    padding: 10px;
-    margin: 10px 0;
+    padding: 20px;
+    margin: 20px 0;
 }
 
 .order-details p {
-    margin: 5px 0;
+    margin: 10px 0;
     color: #333;
+    font-size: 1rem;
 }
 
 button:disabled {
@@ -194,4 +290,27 @@ button:disabled {
 
 .cart .checkout-button {
     background: #5cb85c;
+}
+
+/* For the cart dropdown in the navbar */
+.cart-dropdown .cart {
+    width: 350px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+/* Additional fixes for mobile */
+@media (max-width: 768px) {
+    .checkout-scroll-container {
+        max-height: 300px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .checkout-buttons {
+        flex-direction: column;
+    }
 }
